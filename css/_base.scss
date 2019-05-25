@@ -1,0 +1,15 @@
+// reset some default styling
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+// import font
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap');
+$font-stack: 'Poppins', sans-serif;
+
+// variables
+$primary: #222;
+$secondary: #555;
+$rain: #25d9f8;
