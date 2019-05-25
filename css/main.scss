@@ -24,3 +24,13 @@ body {
 	text-align: center;
 	color: $secondary;
 }
+
+.current-weather-wrapper {
+	width: 100%;
+	text-align: center;
+
+	img {
+		width: 150px;
+		padding: 2.5rem 0;
+	}
+}
