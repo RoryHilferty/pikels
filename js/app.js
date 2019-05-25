@@ -53,4 +53,30 @@ window.onload = () => {
 	const monthIndex = new Date().getMonth();
 
 	document.querySelector('.date-and-time').innerHTML = `${dayOfMonth()} of ${months[monthIndex]}, ${getTimeAMPM()}`;
+
+	let lat;
+	let long;
+
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition((pos) => {
+			lat = pos.coords.latitude;
+			long = pos.coords.longitude;
+
+			const proxy = 'https://cors-anywhere.herokuapp.com/';
+			const api = `${proxy}https://api.darksky.net/forecast/6ca97efa591fc351111ac1291a345bfb/${lat},${long}?units=si&exlcude=minutely,alerts`;
+
+			fetch(api)
+				.then((response) => {
+					return response.json();
+				})
+				.then((data) => {
+					console.log(data);
+
+					const {icon, summary, temperature, apparentTemperature} = data.currently;
+					const iconHTML = `<img src="images/${icon}.svg" alt="${summary}">`;
+
+					document.querySelector('.current-weather-wrapper').innerHTML = iconHTML;
+				});
+		});
+	}
 };
