@@ -75,7 +75,11 @@ window.onload = () => {
 					const {icon, summary, temperature, apparentTemperature} = data.currently;
 					const iconHTML = `<img src="images/${icon}.svg" alt="${summary}">`;
 
-					document.querySelector('.current-weather-wrapper').innerHTML = iconHTML;
+					document.querySelector('.current-weather-icon').innerHTML = iconHTML;
+					document.querySelector('.current-temp').innerHTML = `
+            ${temperature.toFixed(0)}&deg;
+            <div class="feels-like">Feels like ${apparentTemperature.toFixed(0)}&deg;</div>
+          `;
 				});
 		});
 	}
