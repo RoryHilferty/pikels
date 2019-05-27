@@ -29,7 +29,7 @@ window.onload = () => {
 		let minutes = date.getMinutes();
 		let ampm = hours >= 12 ? 'PM' : 'AM';
 		hours = hours % 12;
-		hours = hours ? hours : 12; // the hour '0' should be '12'
+		hours = hours ? hours : 12; // 0 is falsey and therefore becomes 12
 		minutes = minutes < 10 ? `0${minutes}` : minutes;
 
 		return `${hours}:${minutes} ${ampm}`;
@@ -62,6 +62,7 @@ window.onload = () => {
 			lat = pos.coords.latitude;
 			long = pos.coords.longitude;
 
+			// proxy required on local host
 			const proxy = 'https://cors-anywhere.herokuapp.com/';
 			const api = `${proxy}https://api.darksky.net/forecast/6ca97efa591fc351111ac1291a345bfb/${lat},${long}?units=si&exlcude=minutely,alerts`;
 
@@ -72,7 +73,14 @@ window.onload = () => {
 				.then((data) => {
 					console.log(data);
 
-					const {icon, summary, temperature, apparentTemperature} = data.currently;
+					const {
+						icon,
+						summary,
+						temperature,
+						apparentTemperature,
+						humidity,
+						precipProbability
+					} = data.currently;
 					const iconHTML = `<img src="images/${icon}.svg" alt="${summary}">`;
 
 					document.querySelector('.current-weather-icon').innerHTML = iconHTML;
@@ -80,6 +88,9 @@ window.onload = () => {
             ${temperature.toFixed(0)}&deg;
             <div class="feels-like">Feels like ${apparentTemperature.toFixed(0)}&deg;</div>
           `;
+
+					document.querySelector('.humidity-data').innerHTML = `${humidity * 100}%`;
+					document.querySelector('.rain-data').innerHTML = `${precipProbability}%`;
 				});
 		});
 	}

@@ -48,3 +48,37 @@ body {
 		font-weight: 400;
 	}
 }
+
+.humidity-rain-wrapper {
+	width: 100%;
+	margin: 2rem 0;
+	padding: 0 2rem;
+	display: flex;
+	justify-content: center;
+	// border: 1px solid red;
+
+	img {
+		width: 2rem;
+	}
+
+	span {
+		width: 100%;
+	}
+
+	& > div {
+		width: 100%;
+	}
+}
+
+.data-wrapper {
+	display: inline-block;
+	padding-left: 0.5rem;
+}
+
+.bold {
+	font-weight: 700;
+}
+
+.subtext {
+	color: $secondary;
+}
