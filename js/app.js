@@ -81,6 +81,7 @@ window.onload = () => {
 						humidity,
 						precipProbability
 					} = data.currently;
+
 					const iconHTML = `<img src="images/${icon}.svg" alt="${summary}">`;
 
 					document.querySelector('.current-weather-icon').innerHTML = iconHTML;
@@ -89,8 +90,53 @@ window.onload = () => {
             <div class="feels-like">Feels like ${apparentTemperature.toFixed(0)}&deg;</div>
           `;
 
-					document.querySelector('.humidity-data').innerHTML = `${humidity * 100}%`;
-					document.querySelector('.rain-data').innerHTML = `${precipProbability}%`;
+					document.querySelector('.humidity-data').innerHTML = `${(humidity * 100).toFixed(0)}%`;
+					document.querySelector('.rain-data').innerHTML = `${(precipProbability * 100).toFixed(0)}%`;
+
+					const hourly = data.hourly.data;
+					const hourlySliderElem = document.querySelector('.hourly-slider');
+
+					hourlySliderElem.innerHTML = '<div class="slider-buffer"></div>';
+
+					let i;
+					for (i = 1; i < 25; i++) {
+						let hourlyHour = new Date(hourly[i].time * 1000);
+						let tempAndRain;
+						const percip = (hourly[i].precipProbability * 100).toFixed(0);
+
+						if (hourlyHour.getHours() < 10) {
+							hourlyHour = `0${hourlyHour.getHours()}:00`;
+						} else {
+							hourlyHour = `${hourlyHour.getHours()}:00`;
+						}
+
+						if (percip > 4) {
+							tempAndRain = `${hourly[i].temperature.toFixed(
+								0
+							)}&deg;<span class="rain">${percip}%</span>`;
+						} else {
+							tempAndRain = `${hourly[i].temperature.toFixed(0)}&deg;`;
+						}
+
+						hourlySliderElem.innerHTML += `
+              <div class="hour">
+                <div class=" hour-time bold">${hourlyHour}</div>
+                <img src="images/${hourly[i].icon}.svg" alt="${hourly[i].summary}">
+                <div class="hour-temp bold">${tempAndRain}</div>
+              </div>
+            `;
+
+						console.log(hourlyHour, tempAndRain);
+					}
+
+					hourlySliderElem.innerHTML += '<div class="slider-buffer"></div>';
+
+					const hourlySlider = new Flickity(hourlySliderElem, {
+						freeScroll      : true,
+						contain         : true,
+						prevNextButtons : false,
+						pageDots        : false
+					});
 				});
 		});
 	}
