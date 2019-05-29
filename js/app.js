@@ -2,7 +2,7 @@ window.onload = () => {
 	const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 	const dayIndex = new Date().getDay();
 
-	document.querySelector('.day').innerHTML = days[dayIndex];
+	document.querySelector('.today').innerHTML = days[dayIndex];
 
 	function dayOfMonth() {
 		const date = new Date().getDate().toString();
@@ -95,8 +95,9 @@ window.onload = () => {
 
 					const hourly = data.hourly.data;
 					const hourlySliderElem = document.querySelector('.hourly-slider');
+					const buffer = '<div class="slider-buffer"></div>';
 
-					hourlySliderElem.innerHTML = '<div class="slider-buffer"></div>';
+					hourlySliderElem.innerHTML = buffer;
 
 					let i;
 					for (i = 1; i < 25; i++) {
@@ -111,27 +112,64 @@ window.onload = () => {
 						}
 
 						if (percip > 4) {
-							tempAndRain = `${hourly[i].temperature.toFixed(
-								0
-							)}&deg;<span class="rain">${percip}%</span>`;
+							tempAndRain = `
+					      ${hourly[i].temperature.toFixed(0)}&deg;<span class="rain">${percip}%</span>
+					    `;
 						} else {
 							tempAndRain = `${hourly[i].temperature.toFixed(0)}&deg;`;
 						}
 
 						hourlySliderElem.innerHTML += `
-              <div class="hour">
-                <div class=" hour-time bold">${hourlyHour}</div>
-                <img src="images/${hourly[i].icon}.svg" alt="${hourly[i].summary}">
-                <div class="hour-temp bold">${tempAndRain}</div>
+					    <div class="hour">
+					      <div class=" hour-time bold">${hourlyHour}</div>
+					      <img src="images/${hourly[i].icon}.svg" alt="${hourly[i].summary}">
+					      <div class="hour-temp bold">${tempAndRain}</div>
+					    </div>
+					  `;
+
+						// console.log(hourlyHour, tempAndRain);
+					}
+
+					hourlySliderElem.innerHTML += buffer;
+
+					const hourlySlider = new Flickity(hourlySliderElem, {
+						freeScroll      : true,
+						contain         : true,
+						prevNextButtons : false,
+						pageDots        : false
+					});
+
+					const daily = data.daily.data;
+					const dailySliderElem = document.querySelector('.daily-slider');
+
+					dailySliderElem.innerHTML = buffer;
+
+					for (i = 1; i < 8; i++) {
+						let dailyDay = i + dayIndex;
+
+						if (dailyDay > 6) {
+							dailyDay = days[dailyDay - 7];
+						} else {
+							dailyDay = days[dailyDay];
+						}
+
+						dailySliderElem.innerHTML += `
+              <div class="day">
+                <div class="day-of-week">${dailyDay.substring(0, 3)}</div>
+                <img src="images/${daily[i].icon}.svg" alt="">
+                <div class="day-temp">
+                  ${daily[i].temperatureMax.toFixed(0)}&deg;
+                  <span class="day-low-temp">${daily[i].temperatureLow.toFixed(0)}&deg;</span>
+                </div>
               </div>
             `;
 
-						console.log(hourlyHour, tempAndRain);
+						console.log(i);
 					}
 
-					hourlySliderElem.innerHTML += '<div class="slider-buffer"></div>';
+					dailySliderElem.innerHTML += buffer;
 
-					const hourlySlider = new Flickity(hourlySliderElem, {
+					const dailySlider = new Flickity(dailySliderElem, {
 						freeScroll      : true,
 						contain         : true,
 						prevNextButtons : false,
