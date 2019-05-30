@@ -4,8 +4,8 @@ window.onload = () => {
 
 	document.querySelector('.today').innerHTML = days[dayIndex];
 
-	function dayOfMonth() {
-		const date = new Date().getDate().toString();
+	function dayOfMonth(date) {
+		date = date.getDate().toString();
 		const length = date.length;
 		const lastChar = date[length - 1];
 		let output;
@@ -35,24 +35,28 @@ window.onload = () => {
 		return `${hours}:${minutes} ${ampm}`;
 	}
 
-	const months = [
-		'January',
-		'February',
-		'March',
-		'April',
-		'May',
-		'June',
-		'July',
-		'August',
-		'September',
-		'October',
-		'November',
-		'December'
-	];
+	function getThisMonth(date) {
+		const months = [
+			'January',
+			'February',
+			'March',
+			'April',
+			'May',
+			'June',
+			'July',
+			'August',
+			'September',
+			'October',
+			'November',
+			'December'
+		];
 
-	const monthIndex = new Date().getMonth();
+		return months[date.getMonth()];
+	}
 
-	document.querySelector('.date-and-time').innerHTML = `${dayOfMonth()} of ${months[monthIndex]}, ${getTimeAMPM()}`;
+	document.querySelector('.date-and-time').innerHTML = `
+    ${dayOfMonth(new Date())} of ${getThisMonth(new Date())}, ${getTimeAMPM()}
+  `;
 
 	let lat;
 	let long;
@@ -100,7 +104,7 @@ window.onload = () => {
 					hourlySliderElem.innerHTML = buffer;
 
 					let i;
-					for (i = 1; i < 25; i++) {
+					for (i = 0; i < 25; i++) {
 						let hourlyHour = new Date(hourly[i].time * 1000);
 						let tempAndRain;
 						const percip = (hourly[i].precipProbability * 100).toFixed(0);
@@ -119,6 +123,8 @@ window.onload = () => {
 							tempAndRain = `${hourly[i].temperature.toFixed(0)}&deg;`;
 						}
 
+						hourlyHour = i ? hourlyHour : 'Now';
+
 						hourlySliderElem.innerHTML += `
 					    <div class="hour">
 					      <div class=" hour-time bold">${hourlyHour}</div>
@@ -126,8 +132,6 @@ window.onload = () => {
 					      <div class="hour-temp bold">${tempAndRain}</div>
 					    </div>
 					  `;
-
-						// console.log(hourlyHour, tempAndRain);
 					}
 
 					hourlySliderElem.innerHTML += buffer;
@@ -144,18 +148,25 @@ window.onload = () => {
 
 					dailySliderElem.innerHTML = buffer;
 
-					for (i = 1; i < 8; i++) {
-						let dailyDay = i + dayIndex;
+					for (i = 0; i < 8; i++) {
+						let dailyDay = i ? i + dayIndex : 'Today';
+						let dayOfWeek;
 
 						if (dailyDay > 6) {
 							dailyDay = days[dailyDay - 7];
-						} else {
+							dayOfWeek = dailyDay;
+						} else if (dailyDay > 0) {
 							dailyDay = days[dailyDay];
+							dayOfWeek = dailyDay;
+						} else {
+							dayOfWeek = days[dayIndex];
 						}
 
+						const dailyDayShort = dailyDay === 'Today' ? 'Today' : dailyDay.substring(0, 3);
+
 						dailySliderElem.innerHTML += `
-              <div class="day">
-                <div class="day-of-week">${dailyDay.substring(0, 3)}</div>
+              <div class="day" data-day="${dayOfWeek}">
+                <div class="day-of-week">${dailyDayShort}</div>
                 <img src="images/${daily[i].icon}.svg" alt="">
                 <div class="day-temp">
                   ${daily[i].temperatureMax.toFixed(0)}&deg;
