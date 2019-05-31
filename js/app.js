@@ -68,7 +68,7 @@ window.onload = () => {
 
 			// proxy required on local host
 			const proxy = 'https://cors-anywhere.herokuapp.com/';
-			const api = `${proxy}https://api.darksky.net/forecast/6ca97efa591fc351111ac1291a345bfb/${lat},${long}?units=si&exlcude=minutely,alerts`;
+			const api = `${proxy}https://api.darksky.net/forecast/c1ba443dddbcbbb4e8515f74b9616d5b/${lat},${long}?units=si&exlcude=minutely,alerts`;
 
 			fetch(api)
 				.then((response) => {
@@ -165,7 +165,7 @@ window.onload = () => {
 						const dailyDayShort = dailyDay === 'Today' ? 'Today' : dailyDay.substring(0, 3);
 
 						dailySliderElem.innerHTML += `
-              <div class="day" data-day="${dayOfWeek}">
+              <div class="day" data-day="${dayOfWeek}" data-index="${i}">
                 <div class="day-of-week">${dailyDayShort}</div>
                 <img src="images/${daily[i].icon}.svg" alt="">
                 <div class="day-temp">
@@ -174,8 +174,6 @@ window.onload = () => {
                 </div>
               </div>
             `;
-
-						console.log(i);
 					}
 
 					dailySliderElem.innerHTML += buffer;
@@ -185,6 +183,48 @@ window.onload = () => {
 						contain         : true,
 						prevNextButtons : false,
 						pageDots        : false
+					});
+
+					const forecastDays = document.querySelectorAll('.day');
+
+					for (elem of forecastDays) {
+						elem.addEventListener('click', (e) => {
+							const elemIndex = e.target.dataset.index;
+							const elemDate = new Date(daily[elemIndex].time * 1000);
+
+							document.querySelector('.modal-content').innerHTML = `
+                <div class="modal-day">${e.target.dataset.day}</div>
+                <div class="modal-date">
+                  ${dayOfMonth(elemDate)} of ${getThisMonth(elemDate)}
+                </div>
+      
+                <div class="modal-icon">
+                  <img src="images/${daily[elemIndex].icon}.svg" alt="">
+                </div>
+      
+                <div class="modal-data-wrapper">
+                  <img src="images/humidity.svg" alt="Humidity">
+                  <div class="modal-data">
+                      <div class="bold">${(daily[elemIndex].humidity * 100).toFixed(0)}%</div>
+                      <div class="subtext">Humidity</div>
+                  </div>
+                </div>
+                
+                <div class="modal-data-wrapper">
+                  <img src="images/chance_of_rain.svg" alt="Chance of rain">
+                  <div class="modal-data">
+                    <div class="bold">${(daily[elemIndex].precipProbability * 100).toFixed(0)}%</div>
+                    <div class="subtext">Chance of rain</div>
+                  </div>
+                </div>
+              `;
+
+							document.querySelector('.modal-container').classList.remove('hidden');
+						});
+					}
+
+					document.querySelector('.cross').addEventListener('click', () => {
+						document.querySelector('.modal-container').classList.add('hidden');
 					});
 				});
 		});

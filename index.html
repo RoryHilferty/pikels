@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
   <link rel="stylesheet" href="css/main.min.css">
   <title>Pikels</title>
@@ -11,6 +12,38 @@
 
 <body>
   <div class="app">
+
+    <div class="modal-container hidden">
+      <div class="modal">
+        <i class="material-icons cross">clear</i>
+        <div class="modal-content">
+          <div class="modal-day">Tuesday</div>
+          <div class="modal-date">23rd of March</div>
+
+          <div class="modal-icon">
+            <img src="images/partly-cloudy-day.svg" alt="">
+          </div>
+
+          <div class="modal-data-wrapper">
+            <img src="images/humidity.svg" alt="Humidity">
+            <div class="modal-data">
+                <div class="bold">56%</div>
+                <div class="subtext">Humidity</div>
+            </div>
+          </div>
+          
+          <div class="modal-data-wrapper">
+            <img src="images/chance_of_rain.svg" alt="Chance of rain">
+            <div class="modal-data">
+              <div class="bold">20%</div>
+              <div class="subtext">Chance of rain</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
     <div class="today"></div>
     <div class="date-and-time"></div>
     <div class="current-weather-icon"></div>
