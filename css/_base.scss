@@ -12,3 +12,36 @@ $font-stack: 'Roboto', sans-serif;
 // variables
 $primary: #222;
 $secondary: #555;
+
+// animation
+@keyframes pre-loader {
+	0% {
+		transform: scaleX(1);
+		transform-origin: right;
+	}
+
+	25% {
+		transform: scaleX(0.1);
+		transform-origin: right;
+	}
+
+	50% {
+		transform: scaleX(1);
+		transform-origin: right;
+	}
+
+	50.0001% {
+		transform: scaleX(1);
+		transform-origin: left;
+	}
+
+	75% {
+		transform: scaleX(0.1);
+		transform-origin: left;
+	}
+
+	100% {
+		transform: scaleX(1);
+		transform-origin: left;
+	}
+}

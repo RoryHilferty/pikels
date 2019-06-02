@@ -76,6 +76,7 @@ window.onload = () => {
 				})
 				.then((data) => {
 					console.log(data);
+					document.querySelector('.pre-loader').classList.add('hidden');
 
 					const {
 						icon,
