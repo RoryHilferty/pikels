@@ -68,7 +68,8 @@ window.onload = () => {
 
 			// proxy required on local host
 			const proxy = 'https://cors-anywhere.herokuapp.com/';
-			const api = `${proxy}https://api.darksky.net/forecast/c1ba443dddbcbbb4e8515f74b9616d5b/${lat},${long}?units=si&exlcude=minutely,alerts`;
+			const key = 'c1ba443dddbcbbb4e8515f74b9616d5b-ree';
+			const api = `${proxy}https://api.darksky.net/forecast/${key}/${lat},${long}?units=si&exlcude=minutely,alerts`;
 
 			fetch(api)
 				.then((response) => {
@@ -223,11 +224,21 @@ window.onload = () => {
 							document.querySelector('.modal-container').classList.remove('hidden');
 						});
 					}
-
-					document.querySelector('.cross').addEventListener('click', () => {
-						document.querySelector('.modal-container').classList.add('hidden');
-					});
+				})
+				.catch(() => {
+					document.querySelector('.modal-container').classList.remove('hidden');
+					document.querySelector('.modal-content').innerHTML = `
+            <div class="modal-icon">
+              <img src="images/penguin.svg" alt="" class="modal-error-img">
+            </div>
+            <div class="error-title">Oops!</div>
+            <div class="error-text">Something's gone wrong - please try again later or look outside for current weather info.</div>
+          `;
 				});
+
+			document.querySelector('.cross').addEventListener('click', () => {
+				document.querySelector('.modal-container').classList.add('hidden');
+			});
 		});
 	}
 };
