@@ -68,7 +68,7 @@ window.onload = () => {
 
 			// proxy required on local host
 			const proxy = 'https://cors-anywhere.herokuapp.com/';
-			const key = 'c1ba443dddbcbbb4e8515f74b9616d5b-ree';
+			const key = 'c1ba443dddbcbbb4e8515f74b9616d5b';
 			const api = `${proxy}https://api.darksky.net/forecast/${key}/${lat},${long}?units=si&exlcude=minutely,alerts`;
 
 			fetch(api)
@@ -76,7 +76,7 @@ window.onload = () => {
 					return response.json();
 				})
 				.then((data) => {
-					console.log(data);
+					// console.log(data);
 					document.querySelector('.pre-loader').classList.add('hidden');
 
 					const {

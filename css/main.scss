@@ -3,7 +3,7 @@
 html,
 body {
 	width: 100%;
-	height: 100%;
+	height: 100vh;
 	font-family: $font-stack;
 	font-size: 1rem;
 	color: $primary;
@@ -12,6 +12,11 @@ body {
 .app {
 	width: 100%;
 	padding-top: 3rem;
+
+	@include breakpoint-min($sm) {
+		width: 411px;
+		margin: 0 auto;
+	}
 }
 
 .today {
@@ -67,6 +72,14 @@ body {
 
 	& > div {
 		width: 100%;
+	}
+
+	@include breakpoint-max(360px) {
+		font-size: 0.8rem;
+
+		img {
+			width: 1.6rem;
+		}
 	}
 }
 
@@ -151,6 +164,11 @@ body {
 	&.hidden {
 		opacity: 0;
 		pointer-events: none;
+	}
+
+	@include breakpoint-min($sm) {
+		width: 411px;
+		margin: 0 auto;
 	}
 }
 
@@ -267,5 +285,10 @@ body {
 	&.hidden {
 		opacity: 0;
 		pointer-events: none;
+	}
+
+	@include breakpoint-min($sm) {
+		width: 411px;
+		margin: 0 auto;
 	}
 }

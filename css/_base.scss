@@ -12,6 +12,20 @@ $font-stack: 'Roboto', sans-serif;
 // variables
 $primary: #222;
 $secondary: #555;
+$sm: 425px;
+
+//media query
+@mixin breakpoint-min($break) {
+	@media (min-width: $break) {
+		@content;
+	}
+}
+
+@mixin breakpoint-max($break) {
+	@media (max-width: $break) {
+		@content;
+	}
+}
 
 // animation
 @keyframes pre-loader {
